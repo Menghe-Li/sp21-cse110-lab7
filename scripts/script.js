@@ -51,7 +51,7 @@ settings_button.addEventListener('click', () =>{
   setState(state);
 });
 
-// When on an entry
+// each entry have their own state
 function entery_setup(){
   const entries = document.getElementsByTagName('journal-entry');
   for (let i = 0; i < entries.length; i++){
