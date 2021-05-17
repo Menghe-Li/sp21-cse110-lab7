@@ -19,7 +19,19 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('main').appendChild(newPost);
       });
     })
-    .then(entery_setup);
+    .then(entries => {
+      for (let i = 0; i < entries.length; i++){
+        entries[i].addEventListener('click', ()=>{
+          state = {
+            page_title: "Entry " + (i+1), 
+            entry_number: "#entry" + (i+1), 
+            entry_data: entries[i].entry
+          };
+          document.body.className = "single-entry";
+          setState(state);
+        });
+      }
+    });
 });
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
@@ -37,35 +49,19 @@ if ('serviceWorker' in navigator) {
 journal_button.addEventListener('click' ,() => {
   state = {
     page_title: "Journal_Entries",
-    class_name: ""
   };
+  document.body.className = "";
   setState(state);
 });
 
-// Wehn click on the setting img
+// When click on the setting img
 settings_button.addEventListener('click', () =>{
   state = {
    page_title: "Settings",
-   className: "settings"
   };
+  document.body.className = "settings";
   setState(state);
 });
-
-// each entry have their own state
-function entery_setup(){
-  const entries = document.getElementsByTagName('journal-entry');
-  for (let i = 0; i < entries.length; i++){
-    entries[i].addEventListener('click', ()=>{
-      state = {
-        page_title: "Entry " + (i+1), 
-        className: "single-entry", 
-        entry_number: "#entry" + (i+1), 
-        entry_data: entries[i].entry
-      };
-      setState(state);
-    });
-  }
-}
 
 window.onpopstate = function(event) {
   const header_title = document.querySelector("h1");
@@ -73,7 +69,10 @@ window.onpopstate = function(event) {
   if(event.state.page_title == "Journal_Entries"){
     document.body.className = "";
   }
+  else if(event.state.page_title == "Settings") {
+    document.body.className = "settings";
+  }
   else {
-    document.body.className = event.state.className;
+    document.body.className = "single-entry";
   }
 }
