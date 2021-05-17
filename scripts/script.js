@@ -35,7 +35,10 @@ if ('serviceWorker' in navigator) {
 
 // When click on the Jounral Entery
 journal_button.addEventListener('click' ,() => {
-  state = null;
+  state = {
+    page_title: "Journal_Entries",
+    class_name: ""
+  };
   setState(state);
 });
 
@@ -65,14 +68,12 @@ function entery_setup(){
 }
 
 window.onpopstate = function(event) {
-  const page_title = document.querySelector("h1");
-  let body = document.body;
-  if(event.state == null){
-    page_title.textContent = "Journal Entries";
-    body.className = "";
+  const header_title = document.querySelector("h1");
+  header_title.textContent = event.state.page_title;
+  if(event.state.page_title == "Journal_Entries"){
+    document.body.className = "";
   }
   else {
-    page_title.textContent = event.state.page_title;
-    body.className = event.state.className;
+    document.body.className = event.state.className;
   }
 }
